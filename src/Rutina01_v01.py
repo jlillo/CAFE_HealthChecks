@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Jesús Rentero Bonilla
+@author: Jesús Rentero Bonilla and Jorge Lillo-Box
 Rutina 1: ARC SPOTS
 Objetivo: Medir las posiciones X-Y (en píxeles) de 200 spots en las imágenes
           arco crudas obtenidas durante la noche.

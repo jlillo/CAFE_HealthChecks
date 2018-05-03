@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Jesús Rentero Bonilla
+@author: Jesús Rentero Bonilla and Jorge Lillo-Box
 Rutina 4: Control del nivel de BIAS
 Objetivo: Medir el nivel de BIAS de cada fichero. Se generará un único fichero
           llamado "nivel_bias_directorio.txt" donde se almacene la media, mediana y desv. típica

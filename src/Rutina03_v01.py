@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Jesús Rentero Bonilla
+@author: Jesús Rentero Bonilla and Jorge Lillo-Box
 Rutina 3: Degradación del CCD
 Objetivo: Determinar si el CCD está sufriendo algún tipo de degradación
          o pérdida de eficiencia.

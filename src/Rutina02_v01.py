@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Jesús Rentero Bonilla
+@author: Jesús Rentero Bonilla and Jorge Lillo-Box
 Rutina 2: Posición e intensidad del flat
 Objetivo: Determinar la posición de los órdenes en ciertas columnas del CCD
           para controlar si ha habido algún desplazamiento en X-Y

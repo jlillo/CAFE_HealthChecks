@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: Jesús Rentero Bonilla
+@author: Jesús Rentero Bonilla and Jorge Lillo-Box
 Rutina 5: Tiempos de observación. Aprovechamiento de la noche.
 Objetivo: Obtener la eficiencia de la noche de observación. 
           Para ello se mediran todos los tiempos de exposición de cada imagen 
