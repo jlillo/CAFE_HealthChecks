@@ -1,1 +1,24 @@
 # CAFE_HealthChecks
+
+Para que funcione correctamente la master:
+- Se realizar· una copia del directorio que contiene todas las im·genes realizadas en la noche en el directorio de trabajo.
+
+Para que funcione la rutina 01:
+- Debe haber un directorio Rut01_dat para almacenar los resultados.
+- Debe tener la imagen arco de referencia que se elija.
+- Debe tener el fichero de entrada spots.txt con las coordenadas de los spots.
+
+Para que funcione la rutina 02:
+- Debe haber un directorio Rut02_dat para almacenar los resultados.
+- Debe tener la imagen flat de referencia que se elija.
+- Debe estar en el mismo directorio que la rutina master el fichero "ordenes_input.txt"
+
+Para que funcione la rutina 03:
+- Debe haber un directorio Rut03_dat para almacenar los resultados.
+
+Para que funcione la rutina 04:
+- Debe haber un directorio Rut04_dat para almacenar los resultados.
+
+Para que funcione la rutina 05:
+- Debe haber un directorio Rut05_dat para almacenar los resultados.
+
