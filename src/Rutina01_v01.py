@@ -482,63 +482,73 @@ def plotHistory():
     today = datetime.datetime.now()
     today = astropy.time.Time(today)
     jd_today = np.int(today.jd)
-    jd_ini=jd_today-180
+    Xrange_days = 60
+    jd_ini=jd_today-Xrange_days
+    Dx_thresh = [-0.5,0.5]
+    Dy_thresh = [-0.5,0.5]
+    Int_thresh = [0.9,1.1]
     
     plt.figure(figsize=(12,7))
     gs = gridspec.GridSpec(3,1)
     gs.update(left=0.08, right=0.95, bottom=0.08, top=0.93, wspace=0.2, hspace=0.13)
     
     # ===== Plot Delta_x
-    ax = plt.subplot(gs[0,0])
-    ax.set_ylabel(r'$\Delta x$ (pix)')
-    ax.get_xaxis().set_ticks([])
-    ax.set_ylim([-4,4])
-    ax.set_xlim([0,180])
+    ax0 = plt.subplot(gs[0,0])
+    ax0.set_ylabel(r'$\Delta x$ (pix)')
+    # ax0.get_xaxis().set_ticks([])
+    ax0.set_xticklabels([])
+    ax0.set_ylim([-2,2])
+    ax0.set_xlim([0,1.1*Xrange_days])
     arr = desvX
-    plt.errorbar(jd-jd_ini,desvX,yerr=0,fmt='o',c='red')
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((desvX[ii] > Dx_thresh[0]) & (desvX[ii] < Dx_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,desvX[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax0.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(0.1,ls='--',c='red')
-    plt.axhline(-0.1,ls='--',c='red')
+    plt.axhline(Dx_thresh[1],ls='--',c='k')
+    plt.axhline(Dx_thresh[0],ls='--',c='k')
     
     # ===== Plot Delta_y
-    ax = plt.subplot(gs[1,0])
-    ax.set_ylabel(r'$\Delta y$ (pix)')
+    ax1 = plt.subplot(gs[1,0])
+    ax1.set_ylabel(r'$\Delta y$ (pix)')
     label=r'JD-'+str(jd_ini)+' (days)'
-    ax.set_xlabel(label)
-    ax.set_xlim([0,180])
-    ax.set_ylim([-4,4])
+    #ax1.set_xlabel(label)
+    ax1.set_xticklabels([])
+    ax1.set_xlim([0,1.1*Xrange_days])
+    ax1.set_ylim([-2,2])
     arr = desvY
-    plt.errorbar(jd-jd_ini,desvY,yerr=0,fmt='o',c='red')
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((desvY[ii] > Dy_thresh[0]) & (desvY[ii] < Dy_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,desvY[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax1.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(0.1,ls='--',c='red')
-    plt.axhline(-0.1,ls='--',c='red')
+    plt.axhline(Dy_thresh[0],ls='--',c='k')
+    plt.axhline(Dy_thresh[1],ls='--',c='k')
     
     # ===== Plot Intensity
-    ax = plt.subplot(gs[2,0])
-    ax.set_ylabel('Norm. Intensity')
+    ax2 = plt.subplot(gs[2,0])
+    ax2.set_ylabel('Norm. Intensity')
     label=r'JD-'+str(jd_ini)+' (days)'
-    ax.set_xlabel(label)
-    ax.set_xlim([0,180])
-    ax.set_ylim([0.5,1.5])
+    ax2.set_xlabel(label)
+    ax2.set_xlim([0,1.1*Xrange_days])
+    ax2.set_ylim([0.7,1.3])
     
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax2.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(1.01,ls='--',c='red')
-    plt.axhline(0.99,ls='--',c='red')
+    plt.axhline(Int_thresh[0],ls='--',c='k')
+    plt.axhline(Int_thresh[1],ls='--',c='k')
     arr = intNorm
     
     plt.scatter(jd-jd_ini,intNorm,c=arr, cmap='winter',vmin=3.5, vmax=6)

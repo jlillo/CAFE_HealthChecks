@@ -140,44 +140,55 @@ def plotHistory():
     today = datetime.datetime.now()
     today = astropy.time.Time(today)
     jd_today = np.int(today.jd)
-    jd_ini=jd_today-180
+    Xrange_days = 60
+    jd_ini=jd_today-Xrange_days
+    Bias_thresh = [810,830]
+    RON_thresh = 4.
     
     plt.figure(figsize=(12,7))
     gs = gridspec.GridSpec(2,1)
     gs.update(left=0.08, right=0.95, bottom=0.08, top=0.93, wspace=0.2, hspace=0.1)
     
-    ax = plt.subplot(gs[0,0])
-    ax.set_ylabel(r'Bias (ADUs)')
-    ax.get_xaxis().set_ticks([])
-    ax.set_ylim([800,900])
-    ax.set_xlim([0,180])
+    # Bias level
+    ax0 = plt.subplot(gs[0,0])
+    ax0.set_ylabel(r'Bias (ADUs)')
+    #ax0.get_xaxis().set_ticks([])
+    ax0.set_xticklabels([])
+    ax0.set_ylim([800,890])
+    ax0.set_xlim([0,1.1*Xrange_days])
     arr = bias
-    plt.errorbar(jd-jd_ini,bias,yerr=0,fmt='o',c='red')
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((bias[ii] > Bias_thresh[0]) & (bias[ii] < Bias_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,bias[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax0.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(810,ls='--',c='red')
-    plt.axhline(830,ls='--',c='red')
+    plt.axhline(Bias_thresh[0],ls='--',c='k')
+    plt.axhline(Bias_thresh[1],ls='--',c='k')
     
-    ax = plt.subplot(gs[1,0])
-    ax.set_ylabel(r'Ruido de lectura (ADUs)')
+    # RON level
+    ax1 = plt.subplot(gs[1,0])
+    ax1.set_ylabel(r'Ruido de lectura (ADUs)')
     label=r'JD-'+str(jd_ini)+' (days)'
-    ax.set_xlabel(label)
-    ax.set_xlim([0,180])
-    ax.set_ylim([2,7])
-    
+    ax1.set_xlabel(label)
+    ax1.set_xlim([0,1.1*Xrange_days])
+    ax1.set_ylim([2,7])
+    for ii in range(len(jd)):
+    	micolor = 'green' if (std[ii] < RON_thresh) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,std[ii],yerr=0,fmt='o',c=micolor)
+   
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax1.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(6,ls='--',c='red')
+    plt.axhline(RON_thresh,ls='--',c='k')
     
-    arr = std
-    
-    plt.scatter(jd-jd_ini,std,c=arr, cmap='winter',vmin=3.5, vmax=6)
+    #arr = std
+    #plt.scatter(jd-jd_ini,std,c=arr, cmap='winter',vmin=3.5, vmax=6)
+
     plt.savefig(HOME_FOLDER+'/plots/bias_history_CAFE.pdf')

@@ -389,60 +389,74 @@ def plotHistory():
     today = datetime.datetime.now()
     today = astropy.time.Time(today)
     jd_today = np.int(today.jd)
-    jd_ini=jd_today-180
+    Xrange_days = 60
+    jd_ini=jd_today-Xrange_days
+    Dy_thresh = [-0.5,0.5]
     
     plt.figure(figsize=(12,7))
     gs = gridspec.GridSpec(3,1)
     gs.update(left=0.08, right=0.95, bottom=0.08, top=0.93, wspace=0.2, hspace=0.1)
     
-    ax = plt.subplot(gs[0,0])
-    ax.set_ylabel(r'$\Delta y$ (pix) - Orden 10')
-    ax.get_xaxis().set_ticks([])
-    ax.set_ylim([-1,1])
-    ax.set_xlim([0,180])
+    # Order 10
+    ax0 = plt.subplot(gs[0,0])
+    ax0.set_ylabel(r'$\Delta y$ (pix) - Orden 10')
+    #ax0.get_xaxis().set_ticks([])
+    ax0.set_xticklabels([])
+    ax0.set_ylim([-1,1])
+    ax0.set_xlim([0,1.1*Xrange_days])
     arr = desv10
-    plt.errorbar(jd-jd_ini,desv10,yerr=0,fmt='o',c='red')
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((desv10[ii] > Dy_thresh[0]) & (desv10[ii] < Dy_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,desv10[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax0.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(0.1,ls='--',c='red')
-    plt.axhline(-0.1,ls='--',c='red')
+    plt.axhline(Dy_thresh[0],ls='--',c='k')
+    plt.axhline(Dy_thresh[1],ls='--',c='k')
     
-    ax = plt.subplot(gs[1,0])
-    ax.set_ylabel(r'$\Delta y$ (pix) - Orden 40')
-    label=r'JD-'+str(jd_ini)+' (days)'
-    ax.set_xlabel(label)
-    ax.set_xlim([0,180])
-    ax.set_ylim([-1,1])
+    # Order 40
+    ax1 = plt.subplot(gs[1,0])
+    ax1.set_ylabel(r'$\Delta y$ (pix) - Orden 40')
+    #label=r'JD-'+str(jd_ini)+' (days)'
+    #ax1.set_xlabel(label)
+    ax1.set_xticklabels([])
+    ax1.set_xlim([0,1.1*Xrange_days])
+    ax1.set_ylim([-1,1])
     arr = desv40
-    plt.errorbar(jd-jd_ini,desv40,yerr=0,fmt='o',c='red')
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((desv40[ii] > Dy_thresh[0]) & (desv40[ii] < Dy_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,desv40[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax1.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(0.1,ls='--',c='red')
-    plt.axhline(-0.1,ls='--',c='red')
+    plt.axhline(Dy_thresh[0],ls='--',c='k')
+    plt.axhline(Dy_thresh[1],ls='--',c='k')
     
-    ax = plt.subplot(gs[2,0])
-    ax.set_ylabel(r'$\Delta y$ (pix) - Orden 70')
+    # Order 70
+    ax2 = plt.subplot(gs[2,0])
+    ax2.set_ylabel(r'$\Delta y$ (pix) - Orden 70')
     label=r'JD-'+str(jd_ini)+' (days)'
-    ax.set_xlabel(label)
-    ax.set_xlim([0,180])
-    ax.set_ylim([-1,1])
-    plt.errorbar(jd-jd_ini,desv70,yerr=0,fmt='o',c='red')
+    ax2.set_xlabel(label)
+    ax2.set_xlim([0,1.1*Xrange_days])
+    ax2.set_ylim([-1,1])
+    for ii in range(len(jd)):
+    	micolor = 'green' if ((desv70[ii] > Dy_thresh[0]) & (desv70[ii] < Dy_thresh[1])) else 'red' 
+    	plt.errorbar(jd[ii]-jd_ini,desv70[ii],yerr=0,fmt='o',c=micolor)
     for year in range(10):
     	jdyear = gcal2jd(2011+year,1,1)
     	plt.axvline(jdyear[0]+jdyear[1]-jd_ini, ls=':', c='gray')
     	begin = jdyear[0]+jdyear[1]-jd_ini
-    	ax.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
+    	ax2.annotate(np.str(2011+year), xy=(begin+150, 890), xycoords='data', fontsize=14)
     plt.grid(ls=':',c='gray')
-    plt.axhline(0.1,ls='--',c='red')
-    plt.axhline(-0.1,ls='--',c='red')
+    plt.axhline(Dy_thresh[0],ls='--',c='k')
+    plt.axhline(Dy_thresh[1],ls='--',c='k')
+
     plt.savefig(HOME_FOLDER+'/plots/orden_history_CAFE.pdf')
 
 """  
